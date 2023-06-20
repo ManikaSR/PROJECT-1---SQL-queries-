@@ -22,7 +22,8 @@ group by FirstName;
 
 #3
 SELECT count(distinct C.CustomerID) as Total_customer
-FROM customers C JOIN orders O on C.CustomerID = O.CustomerID
+FROM customers C 
+JOIN orders O on C.CustomerID = O.CustomerID
 WHERE country= 'United States' AND orderdate >= '2021-04-01' AND orderdate <='2021-06-30';
 
 #4
@@ -38,24 +39,24 @@ ORDER BY year(Orderdate) ASC ,week(orderDate) ASC;
 SELECT c.CustomerID ,substring_index(Email,"@",-1) as Email_domain,
 concat(c.FirstName," ",c.LastName," ","was born on"," ",date_format(c.Date_of_Birth,"%D %M %Y")) as Descriptions 
 FROM customers c
-JOIN orders o on c.CustomerID
-ORDER BY OrderDate desc,CustomerID ASC;
+JOIN orders o on c.CustomerID = o.CustomerID
+ORDER BY OrderDate DESC,CustomerID ASC;
 
 #6
-SELECT dayname(OrderDate) as Days,
+SELECT dayname(DeliveryDate) as Days,
 count(*) as total_orders 
 FROM orders
-GROUP BY dayname(OrderDate)
+GROUP BY dayname(DeliveryDate)
 ORDER BY count(*) desc;
 
 #7
-SELECT o.OrderID,
-o.CustomerID,
+SELECT OrderID,
+CustomerID,
 avg(Total_order_amount) as average_revenue 
-FROM orders o
+FROM orders
 WHERE datediff(ShipDate,OrderDate)=3
-GROUP BY o.orderID,o.CustomerID
-ORDER BY o.orderID asc;
+GROUP BY orderID,CustomerID
+ORDER BY orderID asc;
 
 #8
 SELECT Country,
@@ -65,4 +66,4 @@ SELECT Country,
 	end as Details
 FROM suppliers
 GROUP BY country
-ORDER BY country asc;
+ORDER BY country DESC;
